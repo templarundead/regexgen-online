@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui'>
+	<title>Regexgen</title>
+	<style>
+
+
+.ripple {
+	background-position: center;
+	transition: background 0.8s;
+}
+
+.ripple:hover {
+	background: #262e49 radial-gradient(circle, transparent 1%, #2A3351 1%) center/15000%;
+}
+
+.ripple:active {
+	background-color: #262e49;
+	background-size: 100%;
+	transition: background 0s;
+}
+
+body {
+	background-color: #212942
+}
+
+.box {
+	display: grid;
+	grid-template-rows: 150px 35px 35px 35px 35px
+}
+
+#output,textarea {
+	color: #565f79;
+	-webkit-overflow-scrolling: touch
+}
+
+button,textarea {
+	-webkit-appearance: none;
+	background-color: #262e49;
+	border: 0;
+	-webkit-tap-highlight-color: transparent
+}
+
+textarea {
+	border-radius: 0;
+	caret-color: #565f79;
+	grid-column: 1/4
+}
+
+#parse {
+	grid-column: 1/4
+}
+
+button {
+	color: #565f79
+}
+
+#group,#newsize,#oldsize,#word,#test {
+	color: #475379ff;
+	transition: all 2s ease 0s
+}
+
+#output {
+	width: 100%;
+	max-height: 100px;
+	overflow-y: auto;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+</head>
+<body>
+	<script>
+	</script>
+	<div class="box">
+		<textarea id="input" onclick='this.setSelectionRange(0, 9999)'>
+frost
+ghost
+pos
+most
+best</textarea>
+		<button type="button" onclick="sortalpha()">Alpha</button>
+		<button type="button" onclick="sort()">Ascend</button>
+		<button type="button" onclick="resort()">Descend</button>
+		<button type="button" onclick="clean()">Clean</button>
+		<button type='button' onclick="testRegex()">Test</button>
+		<button type="button" id="copybtn">Copy</button>
+		<button type="button" id="parse" class='ripple'>Parse</button>
+	</div>
+	<pre id="output"></pre>
+	<div id="word"></div>
+	<div id="oldsize"></div>
+	<div id="newsize"></div>
+	<div id="group"></div>
+	<div id="test"></div>
+	<script>
+document.getElementById('copybtn').addEventListener('click', function (event) {
+	let result = document.getElementById('output');
+	let range = document.createRange();
+	range.selectNode(result);
+	window.getSelection().addRange(range);
+	try {
+		let successful = document.execCommand('copy');
+		let msg = successful ? 'Copied' : 'unsuccessful';
+		document.getElementById("copybtn").textContent = "Copied!";
+		setTimeout(function () {
+			document.getElementById("copybtn").textContent = 'Copy';
+		}, 1000);
+		console.log('Copied!');
+	}
+	catch (err) {
+		console.log('Oops, unable to copy');
+	}
+	window.getSelection().removeAllRanges();
+});
+	</script>
+	<script>
+function sort() {
+	let x = document.getElementById("input").value.split(/\n|\||\s/).sort(function (a, b) {
+		return a.length - b.length;
+	}).join("\n");
+	document.getElementById("input").value = x;
+};
+
+function resort() {
+	let x = document.getElementById("input").value.split(/\n|\||\s/).sort(function (a, b) {
+		return b.length - a.length;
+	}).join("\n");
+	document.getElementById("input").value = x;
+};
+
+function sortalpha() {
+	let x = document.getElementById("input").value.split(/\n|\||\s/).sort().join("\n");
+	document.getElementById("input").value = x;
+};
+
+function clean() {
+	let x = document.getElementById("output").textContent.replace(/\\/g, "");
+	document.getElementById("output").textContent = x;
+	let newsize = document.getElementById("output").textContent.length;
+	document.getElementById("newsize").textContent = `new size: ${newsize}kb`;
+};
+
+function testRegex() {
+	const start = performance.now();
+	for (i = 0; i < 100000; i++) {
+	let regex = new RegExp(document.getElementById("output").textContent);
+	}
+	const end = performance.now();
+	document.getElementById("test").textContent = (`speed: ${end - start}ms`);
+}
+	</script>
+	<script src="bundle.js"></script>
+</body>
+
+</html>
