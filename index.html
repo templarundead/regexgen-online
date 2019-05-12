@@ -9,28 +9,24 @@
     <link rel='apple-touch-startup-image' href='startup.png?ver=1.2'>
 	<title>Regexgen</title>
 	<style>
-
-
-.ripple {
+button {
 	background-position: center;
-	transition: background 0.8s;
+	transition: background .8s
 }
 
-.ripple:hover {
-	background: #262e49 radial-gradient(circle, transparent 1%, #2A3351 1%) center/15000%;
+button:hover {
+	background: #262e49 radial-gradient(circle,transparent 1%,#2a3351 1%) center/15000%
 }
 
-.ripple:active {
+button:active {
 	background-color: #262e49;
 	background-size: 100%;
-	transition: background 0s;
+	transition: background 0s
 }
-
-
 
 body {
 	background-color: #212942;
-   -webkit-touch-callout: none;
+	-webkit-touch-callout: none
 }
 
 .box {
@@ -52,11 +48,10 @@ button,textarea {
 
 textarea {
 	border-radius: 0;
-	caret-color: #565f79;
-	grid-column: 1/4
+	caret-color: #565f79
 }
 
-#parse {
+#parse,textarea {
 	grid-column: 1/4
 }
 
@@ -64,10 +59,11 @@ button {
 	color: #565f79
 }
 
-#group,#newsize,#oldsize,#word,#test {
+#group,#newsize,#oldsize,#test,#word {
 	color: #475379ff;
 	transition: all 2s ease 0s
 }
+
 
 #output {
 	width: 100%;
@@ -96,7 +92,7 @@ best</textarea>
 		<button type="button" onclick="clean()">Clean</button>
 		<button type='button' onclick="testRegex()">Test</button>
 		<button type="button" id="copybtn">Copy</button>
-		<button type="button" id="parse" class='ripple'>Parse</button>
+		<button type="button" id="parse">Parse</button>
 	</div>
 	<pre id="output"></pre>
 	<div id="word"></div>
